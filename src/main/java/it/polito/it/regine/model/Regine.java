@@ -34,23 +34,26 @@ public class Regine {
 		cerca(parziale, 0);
 		
 		return this.soluzione;
+		
+		
 	}
 	
 	private boolean cerca (List<Integer> parziale, int livello) {
-		
+	
+		// caso terminale
 		if(livello == N) {
-			// caso terminale
-			//System.out.println(parziale);
-			this.soluzione = new ArrayList<>(parziale);
+			this.soluzione = new ArrayList<Integer>(parziale);
 			
 			return true;
 		}
+		
 		else {
-			for(int colonna = 0; colonna < N; colonna ++) {
-				// if la mossa nella casella [livello] [colonna] è valida
-				// se sì, aggiungi a parziale e fai ricorsione
-				
-				if(posValida(parziale, colonna)) {
+			// if la mossa nella casella [livello] [colonna] è valida
+			// se sì, aggiungi a parziale e fai ricorsione
+		
+			for(int colonna = 0; colonna < N; colonna++) {
+			
+				if(this.posValida(parziale, colonna)) {
 					parziale.add(colonna);
 					
 					boolean trovato = cerca(parziale, livello+1);
@@ -59,31 +62,32 @@ public class Regine {
 						return true;
 					
 					parziale.remove(parziale.size()-1);
-					
 				}
-				
 			}
+			
 			return false;
-		}
+		}		
+	
 	}
 
 	private boolean posValida(List<Integer> parziale, int colonna) {
 		
-		int livello = parziale.size();
-		
 		// controlla se colonna vuota 
-		if(parziale.contains(colonna))
-			return false;
+			if(parziale.contains(colonna))
+				return false;
 		
 		// controllo se diagonale libera 
-		for(int r = 0; r<livello; r++) {
-			int c = parziale.get(r);
-			
-			if(r+c == livello+colonna || r-c == livello-colonna)
-				return false;
+		// due elementi sulla stessa diagonale hanno (colonna-riga) uguale 
+		
+		int r = 0;
+		
+		for(Integer c: parziale) {
+				if( (r+c) == parziale.size()+colonna || r-c == parziale.size()-colonna)
+					return false;
+			r++;
 		}
 		
-		
 		return true;
+			
 	}
 }
